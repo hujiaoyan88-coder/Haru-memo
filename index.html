@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#14121a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="description" content="ブラウザ完結のメモ帳。ログイン不要、データは端末に保存。" />
+  <title>はるメモ</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23f4b4c4'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-size='36'%3E📝%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <aside class="sidebar" id="sidebar">
+      <header class="side-head">
+        <div class="brand">
+          <span class="logo" aria-hidden="true">📝</span>
+          <div>
+            <h1>はるメモ</h1>
+            <p class="tagline">ブラウザだけで完結</p>
+          </div>
+        </div>
+        <button class="icon-btn ghost" id="btnSettings" title="設定" aria-label="設定">⚙</button>
+      </header>
+
+      <div class="toolbar">
+        <label class="search">
+          <span class="sr-only">検索</span>
+          <input id="search" type="search" placeholder="メモを探す…" autocomplete="off" />
+        </label>
+        <button class="primary" id="btnNew">＋ 新しいメモ</button>
+      </div>
+
+      <div class="sort-row">
+        <select id="sort" aria-label="並び順">
+          <option value="updated">更新が新しい順</option>
+          <option value="created">作成が新しい順</option>
+          <option value="title">タイトル順</option>
+        </select>
+        <span id="noteCount" class="muted"></span>
+      </div>
+
+      <ul class="note-list" id="noteList" role="listbox" aria-label="メモ一覧"></ul>
+
+      <footer class="side-foot">
+        <button class="text-btn" id="btnExport">書き出し</button>
+        <button class="text-btn" id="btnImport">読み込み</button>
+        <input id="importFile" type="file" accept="application/json,.json" hidden />
+      </footer>
+    </aside>
+
+    <main class="editor-pane" id="editorPane">
+      <header class="editor-head">
+        <button class="icon-btn mobile-only" id="btnBack" aria-label="一覧へ">←</button>
+        <input id="title" class="title-input" type="text" placeholder="タイトル" maxlength="80" />
+        <div class="editor-actions">
+          <button class="icon-btn" id="btnPin" title="ピン留め" aria-label="ピン留め">📌</button>
+          <button class="icon-btn danger" id="btnDelete" title="削除" aria-label="削除">🗑</button>
+        </div>
+      </header>
+      <p class="meta" id="meta"></p>
+      <textarea id="body" placeholder="ここに書く。自動で保存されるよ。" spellcheck="false"></textarea>
+      <div class="empty-editor" id="emptyEditor">
+        <div class="empty-card">
+          <p class="empty-emoji">🍃</p>
+          <h2>メモを選ぶか、作って</h2>
+          <p>全部この端末の中だけに保存される。<br />サーバにもアカウントにも飛ばない。</p>
+          <button class="primary" id="btnNewEmpty">＋ 最初のメモ</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal hidden" id="settingsModal" role="dialog" aria-labelledby="settingsTitle">
+    <div class="modal-card">
+      <h2 id="settingsTitle">設定</h2>
+      <label class="row">
+        <span>テーマ</span>
+        <select id="theme">
+          <option value="dark">ダーク</option>
+          <option value="light">ライト</option>
+          <option value="system">端末に合わせる</option>
+        </select>
+      </label>
+      <label class="row">
+        <span>文字サイズ</span>
+        <input id="fontSize" type="range" min="14" max="24" step="1" />
+        <span id="fontSizeVal" class="muted">16px</span>
+      </label>
+      <p class="hint">データはブラウザの localStorage に保存。端末・ブラウザを変えると見えないから、大事な分は「書き出し」してね。</p>
+      <div class="modal-actions">
+        <button class="text-btn danger" id="btnWipe">全削除</button>
+        <button class="primary" id="btnCloseSettings">閉じる</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden" role="status"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
