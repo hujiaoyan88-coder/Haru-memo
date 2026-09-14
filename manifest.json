@@ -1,0 +1,16 @@
+{
+  "name": "はるメモ",
+  "short_name": "はるメモ",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#14121a",
+  "theme_color": "#14121a",
+  "icons": [
+    {
+      "src": "Haru-memo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
